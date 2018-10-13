@@ -1,7 +1,11 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QFontDatabase>
+#include <QQuickItem>
 #include <QQuickView>
+#include <QObject>
+
+#include "licenceplatedatabase.h"
 
 int main(int argc, char *argv[])
 {
@@ -16,17 +20,13 @@ int main(int argc, char *argv[])
     if (engine.rootObjects().isEmpty())
         return -1;
 
-    QQuickView checkLicencePlateView(QUrl::fromLocalFile("ckeckLicencePlate.qml"));
-    QQuickItem *checkLicencePlateItem = checkLicencePlateView.rootObject();
+    QObject *qmlItem = engine.rootObjects().first();
 
-    QQuickView guessLicencePlateView(QUrl::fromLocalFile("guessLicencePlate.qml"));
-    QQuickItem *guessLicencePlateItem = guessLicencePlateView.rootObject();
+    LicencePlateDatabase licenceplatedatabase(qmlItem);
 
-//    MyClass myClass;
-//    QObject::connect(item, SIGNAL(qmlSignal(QString)),
-//                     &myClass, SLOT(cppSlot(QString)));
+    QObject::connect(qmlItem, SIGNAL(check(QString)), &licenceplatedatabase, SLOT(checkToken(QString)));
 
-    QFontDatabase::addApplicationFont(":/../Fonts/EuroPlate.ttf");
+    QFontDatabase::addApplicationFont("qrc:/Fonts/EuroPlate.ttf");
 
     return app.exec();
 }

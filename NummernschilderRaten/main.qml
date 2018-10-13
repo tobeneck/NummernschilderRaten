@@ -9,6 +9,55 @@ ApplicationWindow {
     height: 1239
     title: qsTr("Tabs")
 
+
+    signal check(string token)
+
+    function updateResultText(text){
+        resultText.text = text
+    }
+
+    Item {
+        id: checkLicencePlate
+
+        FontLoader {
+            id: localFont
+            source: "qrc:/Fonts/EuroPlate.ttf"
+        }
+
+        Text{
+            anchors.fill: parent
+            text: "Hello World!"
+            font.family: localFont.name
+        }
+
+        Image {
+            id: inputShield
+            source: "qrc:/Pictures/Nummernschild-201020596577.jpg"
+            //697x175 pixels
+            TextInput{
+                anchors.fill: parent
+                anchors.leftMargin: 120
+                anchors.topMargin: (parent.height - font.pixelSize + 25) / 2
+                font.family: localFont.name
+                font.pixelSize: 125
+                maximumLength: 3
+                onTextChanged: check(text)
+            }
+        }
+
+        Text{
+            id: resultText
+            anchors.top: inputShield.bottom
+            anchors.horizontalCenter: inputShield.horizontalCenter
+            text: "keine gültige abkürzung"
+        }
+    }
+
+    Item{
+        id: guessLicencePlate
+    }
+
+
     header: ToolBar {
         contentHeight: toolButton.implicitHeight
 
@@ -21,10 +70,10 @@ ApplicationWindow {
             }
         }
 
-        Label {
-            text: stackView.currentItem.title
-            anchors.centerIn: parent
-        }
+//        Label {
+//            text: stackView.currentItem.title
+//            anchors.centerIn: parent
+//        }
     }
 
     Drawer {
@@ -40,7 +89,7 @@ ApplicationWindow {
                 width: parent.width
                 onClicked: {
                     stackView.pop()
-                    stackView.push("checkLicencePlate.qml")
+                    stackView.push(checkLicencePlate)
                     drawer.close()
                 }
             }
@@ -49,7 +98,7 @@ ApplicationWindow {
                 width: parent.width
                 onClicked: {
                     stackView.pop()
-                    stackView.push("guessLicencePlate.qml")
+                    stackView.push(guessLicencePlate)
                     drawer.close()
                 }
             }
@@ -58,7 +107,7 @@ ApplicationWindow {
 
     StackView {
         id: stackView
-        initialItem: "checkLicencePlate.qml"
+        initialItem: checkLicencePlate
         anchors.fill: parent
     }
 }

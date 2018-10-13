@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>../Fonts/EuroPlate.ttf</file>
+        <file>Fonts/EuroPlate.ttf</file>
     </qresource>
 </RCC>

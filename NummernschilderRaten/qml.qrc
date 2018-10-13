@@ -2,7 +2,5 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>guessLicencePlate.qml</file>
-        <file>checkLicencePlate.qml</file>
     </qresource>
 </RCC>
