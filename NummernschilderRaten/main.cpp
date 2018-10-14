@@ -24,7 +24,8 @@ int main(int argc, char *argv[])
 
     LicencePlateDatabase licenceplatedatabase(qmlItem);
 
-    QObject::connect(qmlItem, SIGNAL(check(QString)), &licenceplatedatabase, SLOT(checkToken(QString)));
+    QObject::connect(qmlItem, SIGNAL(checkToken(QString)), &licenceplatedatabase, SLOT(checkToken(QString)));
+    QObject::connect(qmlItem, SIGNAL(guessToken()), &licenceplatedatabase, SLOT(guessToken()));
 
     QFontDatabase::addApplicationFont("qrc:/Fonts/EuroPlate.ttf");
 

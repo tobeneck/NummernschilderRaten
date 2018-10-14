@@ -14,6 +14,7 @@ public:
 
 public slots:
     void checkToken(QString token);
+    void guessToken();
 
 private:
     void readFile();

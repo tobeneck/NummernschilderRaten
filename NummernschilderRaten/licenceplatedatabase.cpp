@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QDebug>
+#include <QRandomGenerator>
 
 LicencePlateDatabase::LicencePlateDatabase(QObject *qmlItem)
 {
@@ -33,10 +34,86 @@ void LicencePlateDatabase::checkToken(QString token)
     }
 }
 
+void LicencePlateDatabase::guessToken()
+{
+    //find real token
+    QList<QString> tokens = _data.keys();
+    int tokenPosition = QRandomGenerator::global()->bounded(tokens.count() - 1);
+    QString realToken = tokens.at(tokenPosition);
+    QString cityToLookFor = _data[realToken];
+
+    //generate false answers
+    QList<QString> falseAnsewers;
+    for(int i = tokenPosition + 1; i < tokenPosition + 3 || i >= tokens.count() ; i++){
+        falseAnsewers.append(tokens.at(i));
+    }
+    for(int i = tokenPosition - 1; i > tokenPosition - 3 || i <= 0 ; i--){
+        falseAnsewers.append(tokens.at(i));
+    }
+
+    //filter false answers
+    //NOTE: better Filters can be installed here
+//    for(int i = 0; i < falseAnsewers.count() && falseAnsewers.count() <= 3; i++){ //sort for start letters
+//        if(falseAnsewers.at(i).at(0) != realToken.at(0))
+//            falseAnsewers.removeAt(i);
+//    }
+    for(int i = 0; i < falseAnsewers.count() && falseAnsewers.count() <= 3; i++){ //remove until just 3
+        if(i%2 == 0)
+            falseAnsewers.pop_back();
+        else
+            falseAnsewers.pop_front();
+    }
+
+    //randomize the output to the user
+    int returnPattern = QRandomGenerator::global()->bounded(3);
+    QVariant returnedValue;
+    switch(returnPattern){
+    case 0:
+        QMetaObject::invokeMethod(_qmlItem, "setNewUserQuestion",
+                  Q_RETURN_ARG(QVariant, returnedValue),
+                  Q_ARG(QVariant, falseAnsewers.at(0)),
+                  Q_ARG(QVariant, falseAnsewers.at(1)),
+                  Q_ARG(QVariant, falseAnsewers.at(2)),
+                  Q_ARG(QVariant, realToken),
+                  Q_ARG(QVariant, 4),
+                  Q_ARG(QVariant, _data[realToken]));
+        break;
+    case 1:
+        QMetaObject::invokeMethod(_qmlItem, "setNewUserQuestion",
+                  Q_RETURN_ARG(QVariant, returnedValue),
+                  Q_ARG(QVariant, falseAnsewers.at(0)),
+                  Q_ARG(QVariant, falseAnsewers.at(1)),
+                  Q_ARG(QVariant, realToken),
+                  Q_ARG(QVariant, falseAnsewers.at(2)),
+                  Q_ARG(QVariant, 3),
+                  Q_ARG(QVariant, _data[realToken]));
+        break;
+    case 2:
+        QMetaObject::invokeMethod(_qmlItem, "setNewUserQuestion",
+                  Q_RETURN_ARG(QVariant, returnedValue),
+                  Q_ARG(QVariant, falseAnsewers.at(0)),
+                  Q_ARG(QVariant, realToken),
+                  Q_ARG(QVariant, falseAnsewers.at(1)),
+                  Q_ARG(QVariant, falseAnsewers.at(2)),
+                  Q_ARG(QVariant, 2),
+                  Q_ARG(QVariant, _data[realToken]));
+        break;
+    case 3:
+        QMetaObject::invokeMethod(_qmlItem, "setNewUserQuestion",
+                  Q_RETURN_ARG(QVariant, returnedValue),
+                  Q_ARG(QVariant, realToken),
+                  Q_ARG(QVariant, falseAnsewers.at(0)),
+                  Q_ARG(QVariant, falseAnsewers.at(1)),
+                  Q_ARG(QVariant, falseAnsewers.at(2)),
+                  Q_ARG(QVariant, 1),
+                  Q_ARG(QVariant, _data[realToken]));
+        break;
+    }
+}
+
 void LicencePlateDatabase::readFile()
 {
-    // /home/tobias/QT_Projects/NummernschilderRaten.git/NummernschilderDaten/Nummernschilder
-    QFile file(":/NummernschilderDaten/Nummernschilder"); // qrc:/../NummernschilderDaten/kennzeichen.csv
+    QFile file(":/NummernschilderDaten/Nummernschilder"); //no qrc:/ in this case, don't know why...
     if (!file.open(QIODevice::ReadOnly)){
         qDebug() << "could not open file with Error: " + file.errorString();
         return;
@@ -47,10 +124,10 @@ void LicencePlateDatabase::readFile()
         QString line = in.readLine();
         QStringList splitLine = line.split("\t"); // \t = tab
 
-        if(splitLine.length() >= 3){
+        if(splitLine.count() >= 3){
             _data[splitLine.at(0)] = splitLine.at(1) + ", \n" + splitLine.at(2);
         }
-        else if(splitLine.length() == 2){
+        else if(splitLine.count() == 2){
             _data[splitLine.at(0)] = splitLine.at(1);
         }
         else{
