@@ -10,39 +10,47 @@ Button {
     function lockAnswer(){
         control.enabled = false
         if(rightAnswer)
-            buttonBackground.color = "green"
+            buttonBackground.border.color = "green"
+    }
+
+    FontLoader {
+        id: localFont
+        source: "qrc:/Fonts/EuroPlate.ttf"
     }
 
     contentItem: Text {
         id: buttonText
         text: control.text
-        font: control.font
-        opacity: enabled ? 1.0 : 0.3
-        color: control.down ? "grey" : "grey"
+//        opacity: enabled ? 1.0 : 0.3
+        color: "black"
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
+        font.family: localFont.name
+        font.pixelSize: parent.height / 2
         onTextChanged: {
-            buttonBackground.border.color = "grey"
-            buttonBackground.color = "white"
-            buttonText.color = "grey"
+            buttonBackground.border.color = "black"
+            buttonText.color = "black"
         }
     }
 
     background: Rectangle {
         id: buttonBackground
-        implicitWidth: 100
-        implicitHeight: 40
-        opacity: enabled ? 1 : 0.3
-        border.color: control.down ? "grey" : "grey"
-        border.width: 1
-        radius: 2
+//        opacity: enabled ? 1 : 0.3
+        border.color: enabled ? "black" : rightAnswer ? "green" : "red"
+        border.width: 3
+        radius: 10
+        Image {
+            source: "qrc:/Pictures/Nummernschild-201020596577.jpg"
+            anchors.fill: parent
+            anchors.margins: 10
+            fillMode: Image.PreserveAspectFit
+            //697x175 pixels
+        }
     }
 
     onClicked: {
-        buttonBackground.color = rightAnswer ? "green" : "red"
-        buttonBackground.border.color = "black"
-        buttonText.color = "black"
+        buttonBackground.border.color = rightAnswer ? "green" : "red"
         down()
     }
 }

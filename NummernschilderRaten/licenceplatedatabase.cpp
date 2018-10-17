@@ -19,12 +19,12 @@ LicencePlateDatabase::~LicencePlateDatabase()
 
 void LicencePlateDatabase::checkToken(QString token)
 {
-    token = token.toUpper();
-    if(_data.contains(token)){
+    QString upperToken = token.toUpper();
+    if(_data.contains(upperToken)){
         QVariant returnedValue;
         QMetaObject::invokeMethod(_qmlItem, "updateResultText",
                 Q_RETURN_ARG(QVariant, returnedValue),
-                Q_ARG(QVariant, _data[token]));
+                Q_ARG(QVariant, _data[upperToken]));
     }
     else{
         QVariant returnedValue;
@@ -34,7 +34,7 @@ void LicencePlateDatabase::checkToken(QString token)
     }
 }
 
-void LicencePlateDatabase::guessToken()
+void LicencePlateDatabase::guessToken() //BUG: there was a out of range exeption!
 {
     //find real token
     QList<QString> tokens = _data.keys();
@@ -76,6 +76,9 @@ void LicencePlateDatabase::guessToken()
                   Q_ARG(QVariant, falseAnsewers.at(2)),
                   Q_ARG(QVariant, realToken),
                   Q_ARG(QVariant, 4),
+                  Q_ARG(QVariant, _data[falseAnsewers.at(0)]),
+                  Q_ARG(QVariant, _data[falseAnsewers.at(2)]),
+                  Q_ARG(QVariant, _data[falseAnsewers.at(1)]),
                   Q_ARG(QVariant, _data[realToken]));
         break;
     case 1:
@@ -86,7 +89,10 @@ void LicencePlateDatabase::guessToken()
                   Q_ARG(QVariant, realToken),
                   Q_ARG(QVariant, falseAnsewers.at(2)),
                   Q_ARG(QVariant, 3),
-                  Q_ARG(QVariant, _data[realToken]));
+                  Q_ARG(QVariant, _data[falseAnsewers.at(0)]),
+                  Q_ARG(QVariant, _data[falseAnsewers.at(1)]),
+                  Q_ARG(QVariant, _data[realToken]),
+                  Q_ARG(QVariant, _data[falseAnsewers.at(2)]));
         break;
     case 2:
         QMetaObject::invokeMethod(_qmlItem, "setNewUserQuestion",
@@ -96,7 +102,10 @@ void LicencePlateDatabase::guessToken()
                   Q_ARG(QVariant, falseAnsewers.at(1)),
                   Q_ARG(QVariant, falseAnsewers.at(2)),
                   Q_ARG(QVariant, 2),
-                  Q_ARG(QVariant, _data[realToken]));
+                  Q_ARG(QVariant, _data[falseAnsewers.at(0)]),
+                  Q_ARG(QVariant, _data[realToken]),
+                  Q_ARG(QVariant, _data[falseAnsewers.at(1)]),
+                  Q_ARG(QVariant, _data[falseAnsewers.at(2)]));
         break;
     case 3:
         QMetaObject::invokeMethod(_qmlItem, "setNewUserQuestion",
@@ -106,7 +115,10 @@ void LicencePlateDatabase::guessToken()
                   Q_ARG(QVariant, falseAnsewers.at(1)),
                   Q_ARG(QVariant, falseAnsewers.at(2)),
                   Q_ARG(QVariant, 1),
-                  Q_ARG(QVariant, _data[realToken]));
+                  Q_ARG(QVariant, _data[realToken]),
+                  Q_ARG(QVariant, _data[falseAnsewers.at(0)]),
+                  Q_ARG(QVariant, _data[falseAnsewers.at(1)]),
+                  Q_ARG(QVariant, _data[falseAnsewers.at(2)]));
         break;
     }
 }
