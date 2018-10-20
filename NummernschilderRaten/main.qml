@@ -2,6 +2,7 @@
 import QtQuick 2.11
 import QtQuick.Layouts 1.11//for layouts
 import QtQuick.Controls 2.4
+import Qt.labs.settings 1.0//settings
 
 ApplicationWindow {
     id: window
@@ -35,6 +36,11 @@ ApplicationWindow {
         button3.rightAnswer = false
         button4.rightAnswer = false
 
+        button1.cityName = cityName1
+        button2.cityName = cityName2
+        button3.cityName = cityName3
+        button4.cityName = cityName4
+
         switch(rightAnswer){
             case 1:
                 button1.rightAnswer = true
@@ -55,6 +61,12 @@ ApplicationWindow {
         }
     }
 
+    Settings{
+        id: settings
+        property real licencePlateImageRatio: 0.25107604017
+        property int defaultAnchorMargins: 5
+    }
+
     Item {
         id: checkLicencePlate
 
@@ -68,7 +80,7 @@ ApplicationWindow {
             anchors.top: parent.rop
             anchors.left: parent.left
             anchors.right: parent.right
-            height: 0.25107604017*width
+            height: settings.licencePlateImageRatio * width
             fillMode: Image.PreserveAspectFit
             source: "qrc:/Pictures/Nummernschild-201020596577.jpg"
             //697x175 pixels
@@ -110,8 +122,8 @@ ApplicationWindow {
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.margins: 5
-            height: 0.25107604017*width*2//ratio of the picture in the button
+            anchors.margins: settings.defaultAnchorMargins
+            height: parent.height/3
             border.color: "black"
             border.width: 3
             radius: 10
@@ -135,28 +147,31 @@ ApplicationWindow {
                 wrapMode: Text.Wrap
             }
         }
-        Rectangle{
-            id: blankSpace1
+
+        CustomProgressBar{
             anchors.top: questionField.bottom
             anchors.left: parent.left
             anchors.right: parent.right
-            height: 0.25107604017*width/3
+            anchors.margins: settings.defaultAnchorMargins
+            id: progressBar
         }
 
         Item{
             id: answerButtons
-            anchors.top: blankSpace1.bottom
+            anchors.top: progressBar.bottom
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.margins: 5
-            height: 0.25107604017*width//ratio of the picture in the button
+//            anchors.bottom: blankSpace2.top
+//            anchors.margins: settings.defaultAnchorMargins
+            //height: settings.licencePlateImageRatio*width//ratio of the picture in the button
+            height: parent.height / 3
             CustomButton{
                 id: button1
                 height: parent.height/2-2*anchors.margins
                 width: parent.width/2-2*anchors.margins
                 anchors.top: parent.top
                 anchors.left: parent.left
-                anchors.margins: 5
+                anchors.margins: settings.defaultAnchorMargins
                 onDown: {
                     timer.start()
                     progressBar.start()
@@ -172,7 +187,7 @@ ApplicationWindow {
                 width: parent.width/2-2*anchors.margins
                 anchors.top: parent.top
                 anchors.right: parent.right
-                anchors.margins: 5
+                anchors.margins: settings.defaultAnchorMargins
                 onDown: {
                     timer.start()
                     progressBar.start()
@@ -188,7 +203,7 @@ ApplicationWindow {
                 width: parent.width/2-2*anchors.margins
                 anchors.bottom: parent.bottom
                 anchors.left: parent.left
-                anchors.margins: 5
+                anchors.margins: settings.defaultAnchorMargins
                 onDown: {
                     timer.start()
                     progressBar.start()
@@ -204,7 +219,7 @@ ApplicationWindow {
                 width: parent.width/2-2*anchors.margins
                 anchors.bottom: parent.bottom
                 anchors.right: parent.right
-                anchors.margins: 5
+                anchors.margins: settings.defaultAnchorMargins
                 onDown: {
                     timer.start()
                     progressBar.start()
@@ -214,15 +229,6 @@ ApplicationWindow {
                     button4.lockAnswer()
                 }
             }
-        }
-
-        CustomProgressBar{
-            anchors.top: parent.bottom
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.margins: 5
-            id: progressBar
-            Layout.fillWidth: true
         }
     }
 

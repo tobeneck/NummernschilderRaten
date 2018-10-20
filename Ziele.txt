@@ -1,0 +1,1 @@
+Das Ziel ist es, erstmal eine design Technisch- und funktionierende Version zu erstellen, von welcher aus Online Funktionalität hinzugefügt werden kann.
