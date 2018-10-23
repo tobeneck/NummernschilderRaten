@@ -95,11 +95,78 @@ ApplicationWindow {
             }
         }
 
-        Text{
-            id: resultText
+        Item{
+            id: resultTextSpace
             anchors.top: inputShield.bottom
-            anchors.horizontalCenter: inputShield.horizontalCenter
-            text: "keine gültige abkürzung"
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.margins: settings.defaultAnchorMargins
+            height: inputShield.height
+            Text{
+                id: resultText
+                text: "keine gültige abkürzung"
+                font.pixelSize: inputShield.height / 3
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                anchors.fill: parent
+            }
+        }
+
+        Item{
+            id: switchScreenButtons
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.top: resultTextSpace.bottom
+            CustomButton{
+                id: openGuessLicencePlate
+                anchors.top: parent.top
+                anchors.left: parent.left
+                width: parent.width / 2 - settings.defaultAnchorMargins * 2
+                height: width * settings.licencePlateImageRatio
+                anchors.margins: settings.defaultAnchorMargins
+                text: "Kennzeichen Raten"
+                onClicked: stackView.push(guessLicencePlate)
+            }
+            CustomButton{
+               id: openHighscoreMode
+               anchors.top: parent.top
+               anchors.right: parent.right
+               width: parent.width / 2 - settings.defaultAnchorMargins * 2
+               height: width * settings.licencePlateImageRatio
+               anchors.margins: settings.defaultAnchorMargins
+               text: "Kennzeichen Raten"
+               Text{
+                   anchors.left: parent.left
+                   anchors.right: parent.right
+                   anchors.bottom: parent.bottom
+                   text: "- Highscore -"
+                   font.pixelSize: parent.fontSize / 2
+                   anchors.margins: settings.defaultAnchorMargins
+                           horizontalAlignment: Text.AlignHCenter
+               }
+               onClicked: stackView.push(guessLicencePlateHighscore)
+            }
+            CustomButton{
+                id: openCredits
+                anchors.top:  openGuessLicencePlate.bottom
+                anchors.left: parent.left
+                width: parent.width / 2 - settings.defaultAnchorMargins * 2
+                height: width * settings.licencePlateImageRatio
+                anchors.margins: settings.defaultAnchorMargins
+                text: "Credits und Infos"
+                onClicked: stackView.push(infos)
+            }
+            CustomButton{
+                id: openHighscoreTable
+                anchors.top:  openHighscoreMode.bottom
+                anchors.right: parent.right
+                width: parent.width / 2 - settings.defaultAnchorMargins * 2
+                height: width * settings.licencePlateImageRatio
+                anchors.margins: settings.defaultAnchorMargins
+                text: "Highscore Tabelle"
+                onClicked: stackView.push(highscoreTable)
+            }
         }
     }
 
@@ -146,6 +213,7 @@ ApplicationWindow {
                 font.pixelSize: parent.height /7
                 wrapMode: Text.Wrap
             }
+
         }
 
         CustomProgressBar{
@@ -161,11 +229,8 @@ ApplicationWindow {
             anchors.top: progressBar.bottom
             anchors.left: parent.left
             anchors.right: parent.right
-//            anchors.bottom: blankSpace2.top
-//            anchors.margins: settings.defaultAnchorMargins
-            //height: settings.licencePlateImageRatio*width//ratio of the picture in the button
             height: parent.height / 3
-            CustomButton{
+            CustomLicencePlateButton{
                 id: button1
                 height: parent.height/2-2*anchors.margins
                 width: parent.width/2-2*anchors.margins
@@ -181,7 +246,7 @@ ApplicationWindow {
                     button4.lockAnswer()
                 }
             }
-            CustomButton{
+            CustomLicencePlateButton{
                 id: button2
                 height: parent.height/2-2*anchors.margins
                 width: parent.width/2-2*anchors.margins
@@ -197,7 +262,7 @@ ApplicationWindow {
                     button4.lockAnswer()
                 }
             }
-            CustomButton{
+            CustomLicencePlateButton{
                 id: button3
                 height: parent.height/2-2*anchors.margins
                 width: parent.width/2-2*anchors.margins
@@ -213,7 +278,7 @@ ApplicationWindow {
                     button4.lockAnswer()
                 }
             }
-            CustomButton{
+            CustomLicencePlateButton{
                 id: button4
                 height: parent.height/2 -2*anchors.margins
                 width: parent.width/2-2*anchors.margins
@@ -230,18 +295,46 @@ ApplicationWindow {
                 }
             }
         }
+        Component.onCompleted: guessToken()
     }
 
+    Item{
+        id: infos
+        Text{
+            text: "infos"
+            anchors.fill: parent
+        }
+    }
+
+    Item{
+        id: guessLicencePlateHighscore
+        Text{
+            text: "highscore"
+            anchors.fill: parent
+        }
+    }
+
+    Item{
+        id: highscoreTable
+        Text{
+            text: "highscoretable"
+            anchors.fill: parent
+        }
+    }
 
     header: ToolBar {
         contentHeight: toolButton.implicitHeight
 
         ToolButton {
             id: toolButton
-            text: "\u2630"
+            text: stackView.depth > 1 ? "\u25C0" : "\u2630"
             font.pixelSize: Qt.application.font.pixelSize * 1.6
             onClicked: {
-                drawer.open()
+                if (stackView.depth > 1) {
+                    stackView.pop()
+                } else {
+                    drawer.open()
+                }
             }
         }
 
@@ -259,32 +352,48 @@ ApplicationWindow {
         Column {
             anchors.fill: parent
 
-            ItemDelegate {
-                text: qsTr("Kennzeichen Nachschauen")
-                width: parent.width
-                onClicked: {
-                    stackView.pop()
-                    stackView.push(checkLicencePlate)
-                    drawer.close()
-                }
-            }
+//            ItemDelegate { // should not be viewable
+//                text: qsTr("Kennzeichen Nachschauen")
+//                width: parent.width
+//                onClicked: {
+//                    stackView.pop()
+//                    //stackView.push(checkLicencePlate)
+//                    drawer.close()
+//                }
+//            }
             ItemDelegate {
                 text: qsTr("Kennzeichen Raten")
                 width: parent.width
                 onClicked: {
-                    stackView.pop()
+//                    stackView.pop()
                     stackView.push(guessLicencePlate)
-                    guessToken()
                     drawer.close()
                 }
             }
             ItemDelegate {
-                text: qsTr("Credits")
+                text: qsTr("Kennzeichen Raten Highscore")
                 width: parent.width
                 onClicked: {
-                    stackView.pop()
-                    stackView.push(guessLicencePlate)
-                    getNewQuestion()
+//                    stackView.pop()
+                    stackView.push(guessLicencePlateHighscore)
+                    drawer.close()
+                }
+            }
+            ItemDelegate {
+                text: qsTr("Highscore Tabelle")
+                width: parent.width
+                onClicked: {
+//                    stackView.pop()
+                    stackView.push(highscoreTable)
+                    drawer.close()
+                }
+            }
+            ItemDelegate {
+                text: qsTr("Infos")
+                width: parent.width
+                onClicked: {
+//                    stackView.pop()
+                    stackView.push(infos)
                     drawer.close()
                 }
             }
