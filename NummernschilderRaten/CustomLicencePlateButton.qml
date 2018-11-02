@@ -57,7 +57,7 @@ Button {
         radius: 10
         Image {
             id: backgroundPickture
-            source: "qrc:/Pictures/Nummernschild-201020596577.jpg"
+            source: "qrc:/Pictures/Nummernschild-201020596577.png"
             anchors.fill: parent
             anchors.margins: 10
             fillMode: Image.PreserveAspectFit

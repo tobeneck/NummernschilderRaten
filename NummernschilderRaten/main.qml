@@ -82,7 +82,7 @@ ApplicationWindow {
             anchors.right: parent.right
             height: settings.licencePlateImageRatio * width
             fillMode: Image.PreserveAspectFit
-            source: "qrc:/Pictures/Nummernschild-201020596577.jpg"
+            source: "qrc:/Pictures/Nummernschild-201020596577.png"
             //697x175 pixels
             TextInput{
                 anchors.fill: parent
@@ -116,7 +116,7 @@ ApplicationWindow {
             id: switchScreenButtons
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.bottom: parent.bottom
+            height: childrenRect.height
             anchors.top: resultTextSpace.bottom
             CustomButton{
                 id: openGuessLicencePlate
@@ -167,6 +167,18 @@ ApplicationWindow {
                 text: "Highscore Tabelle"
                 onClicked: stackView.push(highscoreTable)
             }
+        }
+        Image {
+            id: iconBottom
+            anchors.top: switchScreenButtons.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.margins: settings.defaultAnchorMargins
+            scale: 0.5
+            fillMode: Image.PreserveAspectFit
+            source: "qrc:/Pictures/AppIcon.png"
+            horizontalAlignment: Image.AlignHCenter
         }
     }
 
