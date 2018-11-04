@@ -19,12 +19,17 @@ Item {
         //697x175 pixels
         TextInput{
             anchors.fill: parent
+            font.capitalization: Font.AllUppercase
             font.family: localFont.name
             font.pixelSize: inputShield.height > inputShield.width * settings.licencePlateImageRatio ? (inputShield.width * settings.licencePlateImageRatio) * settings.textSizeImageHeightRatio : inputShield.height *settings.textSizeImageHeightRatio
             maximumLength: 3
             onTextChanged: checkToken(text)
             verticalAlignment: TextInput.AlignVCenter
             horizontalAlignment: TextInput.AlignHCenter
+            text: ""
+            focus: true
+
+            inputMethodHints: Qt.ImhNoPredictiveText
         }
     }
 
