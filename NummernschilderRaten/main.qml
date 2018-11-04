@@ -7,8 +7,10 @@ import Qt.labs.settings 1.0//settings
 ApplicationWindow {
     id: window
     visible: true
-    width: 517
-    height: 920
+    width: 288//517
+    height: 511//920
+
+
     title: qsTr("Tabs")
 
 
@@ -37,6 +39,7 @@ ApplicationWindow {
         id: settings
         property real licencePlateImageRatio: 0.25107604017
         property int defaultAnchorMargins: 5
+        property real textSizeImageHeightRatio: 1/1.1
     }
 
     Component{

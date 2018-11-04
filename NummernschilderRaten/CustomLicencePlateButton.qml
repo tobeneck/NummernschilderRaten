@@ -28,7 +28,7 @@ Button {
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
         font.family: localFont.name
-        font.pixelSize: backgroundPickture.height / 2
+        font.pixelSize: backgroundPickture.height > backgroundPickture.width * settings.licencePlateImageRatio ? (backgroundPickture.width * settings.licencePlateImageRatio) * settings.textSizeImageHeightRatio : backgroundPickture.height *settings.textSizeImageHeightRatio
         opacity: enabled ? 1 : 0.3
         onTextChanged: {
             //reset the button
