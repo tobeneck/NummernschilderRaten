@@ -3,6 +3,8 @@ import QtQuick 2.0
 Item{
     id: guessLicencePlate
 
+    property string label: "Kennzeichen Raten"
+
     function setNewUserQuestion(ansẃer1, answer2, answer3, answer4, rightAnswer, cityName1, cityName2, cityName3, cityName4){
 
         button1.text = ansẃer1
@@ -44,6 +46,9 @@ Item{
                 break;
         }
     }
+
+    signal wrongAnswer()
+    signal rightAnswer()
 
     Timer{
         id: timer
@@ -116,6 +121,7 @@ Item{
                 button2.lockAnswer()
                 button3.lockAnswer()
                 button4.lockAnswer()
+                rightAnswer ? rightAnswer() : wrongAnswer()
             }
         }
         CustomLicencePlateButton{
@@ -132,6 +138,7 @@ Item{
                 button2.lockAnswer()
                 button3.lockAnswer()
                 button4.lockAnswer()
+                rightAnswer ? rightAnswer() : wrongAnswer()
             }
         }
         CustomLicencePlateButton{
@@ -148,6 +155,7 @@ Item{
                 button2.lockAnswer()
                 button3.lockAnswer()
                 button4.lockAnswer()
+                rightAnswer ? rightAnswer() : wrongAnswer()
             }
         }
         CustomLicencePlateButton{
@@ -164,6 +172,7 @@ Item{
                 button2.lockAnswer()
                 button3.lockAnswer()
                 button4.lockAnswer()
+                rightAnswer ? rightAnswer() : wrongAnswer()
             }
         }
     }

@@ -84,10 +84,10 @@ ApplicationWindow {
             }
         }
 
-//        Label {
-//            text: stackView.currentItem.title
-//            anchors.centerIn: parent
-//        }
+        Label {
+            text: stackView.currentItem.label
+            anchors.centerIn: parent
+        }
     }
 
     Drawer {
@@ -106,22 +106,23 @@ ApplicationWindow {
                     drawer.close()
                 }
             }
-            ItemDelegate {
-                text: qsTr("Kennzeichen Raten Highscore")
-                width: parent.width
-                onClicked: {
-                    stackView.push(guessLicencePlateHighscore)
-                    drawer.close()
-                }
-            }
-            ItemDelegate {
-                text: qsTr("Highscore Tabelle")
-                width: parent.width
-                onClicked: {
-                    stackView.push(highscoreTable)
-                    drawer.close()
-                }
-            }
+//NOTE: abandoned the Highscore functionality for now
+//            ItemDelegate {
+//                text: qsTr("Kennzeichen Raten Highscore")
+//                width: parent.width
+//                onClicked: {
+//                    stackView.push(guessLicencePlateHighscore)
+//                    drawer.close()
+//                }
+//            }
+//            ItemDelegate {
+//                text: qsTr("Highscore Tabelle")
+//                width: parent.width
+//                onClicked: {
+//                    stackView.push(highscoreTable)
+//                    drawer.close()
+//                }
+//            }
             ItemDelegate {
                 text: qsTr("Infos")
                 width: parent.width

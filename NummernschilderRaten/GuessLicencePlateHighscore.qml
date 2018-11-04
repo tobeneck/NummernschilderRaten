@@ -1,54 +1,69 @@
 import QtQuick 2.0
+import QtQuick.Layouts 1.11//for layouts
+import QtQuick.Controls 2.1//for the popup
+
+//NOTE: abandoned for now
+//TODO:  new Timer for answers and Highscore Management
 
 Item{
     id: guessLicencePlateHighscore
 
+    property string label: "Kennzeichen Raten"
+
     function setNewUserQuestion(ansẃer1, answer2, answer3, answer4, rightAnswer, cityName1, cityName2, cityName3, cityName4){
+        guessLicencePlateNormaly.setNewUserQuestion(ansẃer1, answer2, answer3, answer4, rightAnswer, cityName1, cityName2, cityName3, cityName4)
+        timesOutTimer.start()
+    }
 
-        button1.text = ansẃer1
-        button2.text = answer2
-        button3.text = answer3
-        button4.text = answer4
+    property int highscoreCount: 0
 
-        button1.enabled = true
-        button2.enabled = true
-        button3.enabled = true
-        button4.enabled = true
+    ColumnLayout{
+        anchors.fill: parent
+        Rectangle{
+            Layout.fillWidth: true
+            Layout.leftMargin: settings.defaultAnchorMargins
+            Layout.rightMargin: settings.defaultAnchorMargins
+            Layout.topMargin: settings.defaultAnchorMargins
+            height: parent.height / 16
+            border.color: "black"
+            border.width: 3
+            radius: 10
+        }
 
-        button1.rightAnswer = false
-        button2.rightAnswer = false
-        button3.rightAnswer = false
-        button4.rightAnswer = false
+        GuessLicencePlate{
+            id: guessLicencePlateNormaly
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
-        button1.cityName = cityName1
-        button2.cityName = cityName2
-        button3.cityName = cityName3
-        button4.cityName = cityName4
-
-        switch(rightAnswer){
-            case 1:
-                button1.rightAnswer = true
-                questionCityName.text = cityName1
-                break;
-            case 2:
-                button2.rightAnswer = true
-                questionCityName.text = cityName2
-                break;
-            case 3:
-                button3.rightAnswer = true
-                questionCityName.text = cityName3
-                break;
-            case 4:
-                button4.rightAnswer = true
-                questionCityName.text = cityName4
-                break;
+            onRightAnswer: {
+                timesOutTimer.stop()
+                highscoreCount++
+            }
+            onWrongAnswer: {
+                timesOutTimer.stop()
+                popup.open()
+            }
         }
     }
 
+    Timer{
+        id: timesOutTimer
+        repeat: false
+        interval: 5000
+        onTriggered: {
+            popup.open()
+        }
+    }
 
-    Text{
-        text: "highscore"
-        anchors.fill: parent
+    Popup {
+        id: popup
+        x: 100
+        y: 100
+        width: 50
+        height: 50
+        modal: true
+        focus: true
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
     }
 }
 

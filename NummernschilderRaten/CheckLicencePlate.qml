@@ -1,6 +1,7 @@
 import QtQuick 2.0
 
 Item {
+    property string label: "Kennzeichen Nachschauen"
     property string resultText: "keine gültige abkürzung"
     FontLoader {
         id: localFont
@@ -18,8 +19,6 @@ Item {
         //697x175 pixels
         TextInput{
             anchors.fill: parent
-            //anchors.leftMargin: 120
-            //anchors.topMargin: (parent.height - font.pixelSize + 25) / 2
             font.family: localFont.name
             font.pixelSize: inputShield.height > inputShield.width * settings.licencePlateImageRatio ? (inputShield.width * settings.licencePlateImageRatio) * settings.textSizeImageHeightRatio : inputShield.height *settings.textSizeImageHeightRatio
             maximumLength: 3
@@ -62,44 +61,46 @@ Item {
             onClicked: stackView.push(guessLicencePlate)
         }
         CustomButton{
-           id: openHighscoreMode
+           id: openCredits
            anchors.top: parent.top
            anchors.right: parent.right
            width: parent.width / 2 - settings.defaultAnchorMargins * 2
            height: width * settings.licencePlateImageRatio
            anchors.margins: settings.defaultAnchorMargins
-           text: "Kennzeichen Raten"
-           Text{
-               anchors.left: parent.left
-               anchors.right: parent.right
-               anchors.bottom: parent.bottom
-               text: "- Highscore -"
-               font.pixelSize: parent.fontSize / 2
-               anchors.margins: settings.defaultAnchorMargins
-                       horizontalAlignment: Text.AlignHCenter
-           }
-           onClicked: stackView.push(guessLicencePlateHighscore)
-        }
-        CustomButton{
-            id: openCredits
-            anchors.top:  openGuessLicencePlate.bottom
-            anchors.left: parent.left
-            width: parent.width / 2 - settings.defaultAnchorMargins * 2
-            height: width * settings.licencePlateImageRatio
-            anchors.margins: settings.defaultAnchorMargins
-            text: "Credits und Infos"
-            onClicked: stackView.push(infos)
-        }
-        CustomButton{
-            id: openHighscoreTable
-            anchors.top:  openHighscoreMode.bottom
-            anchors.right: parent.right
-            width: parent.width / 2 - settings.defaultAnchorMargins * 2
-            height: width * settings.licencePlateImageRatio
-            anchors.margins: settings.defaultAnchorMargins
-            text: "Highscore Tabelle"
-            onClicked: stackView.push(highscoreTable)
-        }
+           text: "Credits und Infos"
+           onClicked: stackView.push(infos)
+       }
+
+//NOTE: abandoned the Highscore Functionality for now
+//        CustomButton{
+//            id: openHighscoreMode
+//            anchors.top:  openCredits.bottom
+//            anchors.left: parent.left
+//            width: parent.width / 2 - settings.defaultAnchorMargins * 2
+//            height: width * settings.licencePlateImageRatio
+//            anchors.margins: settings.defaultAnchorMargins
+//            text: "Kennzeichen Raten"
+//            Text{
+//                anchors.left: parent.left
+//                anchors.right: parent.right
+//                anchors.bottom: parent.bottom
+//                text: "- Highscore -"
+//                font.pixelSize: parent.fontSize / 2
+//                anchors.margins: settings.defaultAnchorMargins
+//                        horizontalAlignment: Text.AlignHCenter
+//            }
+//            onClicked: stackView.push(guessLicencePlateHighscore)
+//         }
+//        CustomButton{
+//            id: openHighscoreTable
+//            anchors.top:  openCredits.bottom
+//            anchors.right: parent.right
+//            width: parent.width / 2 - settings.defaultAnchorMargins * 2
+//            height: width * settings.licencePlateImageRatio
+//            anchors.margins: settings.defaultAnchorMargins
+//            text: "Highscore Tabelle"
+//            onClicked: stackView.push(highscoreTable)
+//        }
     }
     Image {
         id: iconBottom
