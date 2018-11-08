@@ -4,6 +4,7 @@ Item{
     id: guessLicencePlate
 
     property string label: "Kennzeichen Raten"
+    property int rightStreak: 0
 
     function setNewUserQuestion(ansẃer1, answer2, answer3, answer4, rightAnswer, cityName1, cityName2, cityName3, cityName4){
 
@@ -47,8 +48,13 @@ Item{
         }
     }
 
-    signal wrongAnswer()
-    signal rightAnswer()
+    function wrongAnswer(){
+        rightStreak = 0
+    }
+
+    function rightAnswer(){
+        rightStreak++
+    }
 
     Timer{
         id: timer
@@ -121,7 +127,7 @@ Item{
                 button2.lockAnswer()
                 button3.lockAnswer()
                 button4.lockAnswer()
-                rightAnswer ? rightAnswer() : wrongAnswer()
+                rightAnswer ? guessLicencePlate.rightAnswer() : guessLicencePlate.wrongAnswer()
             }
         }
         CustomLicencePlateButton{
@@ -138,7 +144,7 @@ Item{
                 button2.lockAnswer()
                 button3.lockAnswer()
                 button4.lockAnswer()
-                rightAnswer ? rightAnswer() : wrongAnswer()
+                rightAnswer ? guessLicencePlate.rightAnswer() : guessLicencePlate.wrongAnswer()
             }
         }
         CustomLicencePlateButton{
@@ -155,7 +161,7 @@ Item{
                 button2.lockAnswer()
                 button3.lockAnswer()
                 button4.lockAnswer()
-                rightAnswer ? rightAnswer() : wrongAnswer()
+                rightAnswer ? guessLicencePlate.rightAnswer() : guessLicencePlate.wrongAnswer()
             }
         }
         CustomLicencePlateButton{
@@ -172,9 +178,19 @@ Item{
                 button2.lockAnswer()
                 button3.lockAnswer()
                 button4.lockAnswer()
-                rightAnswer ? rightAnswer() : wrongAnswer()
+                rightAnswer ? guessLicencePlate.rightAnswer() : guessLicencePlate.wrongAnswer()
             }
         }
+    }
+
+    Text{
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        font.pixelSize: questionCityName.font.pixelSize
+        font.bold: true
+        horizontalAlignment: Text.AlignHCenter
+        text: "Score: " + rightStreak
     }
 
     Component.onCompleted: {

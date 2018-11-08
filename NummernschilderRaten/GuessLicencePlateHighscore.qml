@@ -34,15 +34,6 @@ Item{
             id: guessLicencePlateNormaly
             Layout.fillWidth: true
             Layout.fillHeight: true
-
-            onRightAnswer: {
-                timesOutTimer.stop()
-                highscoreCount++
-            }
-            onWrongAnswer: {
-                timesOutTimer.stop()
-                popup.open()
-            }
         }
     }
 

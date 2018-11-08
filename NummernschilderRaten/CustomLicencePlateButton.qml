@@ -10,8 +10,9 @@ Button {
 
     function lockAnswer(){
         control.enabled = false
-        if(rightAnswer)
+        if(rightAnswer){
             buttonBackground.border.color = "green"
+        }
         displayCityName.color = "black"
     }
 
@@ -55,6 +56,28 @@ Button {
         border.color: enabled ? "black" : rightAnswer ? "green" : "red"
         border.width: 3
         radius: 10
+        property int colorTransitionDuration: 500
+        ColorAnimation on color{
+            id: toGreen
+            to: "#80008000" //green
+            duration: 20
+            onStopped: toWhite.start()
+            running: false
+        }
+        ColorAnimation on color{
+            id: toRed
+            to: "#80ff0000" //red
+            duration: 20
+            onStopped: toWhite.start()
+            running: false
+        }
+        ColorAnimation on color{
+            id: toWhite
+            to: "white"
+            duration: 2000
+            running: false
+        }
+
         Image {
             id: backgroundPickture
             source: "qrc:/Pictures/Nummernschild-201020596577.png"
@@ -69,5 +92,10 @@ Button {
     onClicked: {
         buttonBackground.border.color = rightAnswer ? "green" : "red"
         down()
+        if(rightAnswer){
+            toGreen.start()
+        }
+        else
+            toRed.start()
     }
 }
