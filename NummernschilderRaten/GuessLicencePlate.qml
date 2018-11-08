@@ -76,7 +76,7 @@ Item{
         height: parent.height/3
         border.color: "black"
         border.width: 3
-        radius: 10
+        radius: settings.defaultRectRadius
         Text{
             id: questionStandartText
             text:"Zu welchem Kürzel gehört:"

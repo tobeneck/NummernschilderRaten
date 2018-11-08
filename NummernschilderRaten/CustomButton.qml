@@ -21,6 +21,6 @@ Button {
         color: pressed ? "lightgrey" : "white"
         border.color: "black"
         border.width: 3
-        radius: 10
+        radius: settings.defaultRectRadius
     }
 }

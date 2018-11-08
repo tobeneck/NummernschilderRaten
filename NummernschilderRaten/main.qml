@@ -40,6 +40,7 @@ ApplicationWindow {
         property real licencePlateImageRatio: 0.25107604017
         property int defaultAnchorMargins: 5
         property real textSizeImageHeightRatio: 1/1.1
+        property int defaultRectRadius: 10
     }
 
     Component{
