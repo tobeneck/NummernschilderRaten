@@ -6,9 +6,9 @@
         <file>CustomProgressBar.qml</file>
         <file>CustomButton.qml</file>
         <file>CheckLicencePlate.qml</file>
-        <file>GuessLicencePlateHighscore.qml</file>
         <file>GuessLicencePlate.qml</file>
         <file>HighscoreTable.qml</file>
         <file>Infos.qml</file>
+        <file>HighscoreText.qml</file>
     </qresource>
 </RCC>

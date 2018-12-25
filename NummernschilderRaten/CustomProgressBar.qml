@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import QtQuick.Controls 1.4
+import QtQuick.Controls 1.4//needs to be 1.4 to use progressBar.style
 import QtQuick.Controls.Styles 1.4
 
 
@@ -33,7 +33,7 @@ import QtQuick.Controls.Styles 1.4
                 radius: settings.defaultRectRadius/5
                 color: "lightgray"
                 implicitWidth: progressBar.width - settings.defaultAnchorMargins * 2
-                implicitHeight: settings.defaultAnchorMargins*2
+                implicitHeight: settings.defaultAnchorMargins
             }
             progress: Rectangle {
                 color: "#1f499c"

@@ -50,10 +50,12 @@ Item{
 
     function wrongAnswer(){
         rightStreak = 0
+        currentScoreText.redAnimation()
     }
 
     function rightAnswer(){
         rightStreak++
+        currentScoreText.greenAndBigAnimation()
     }
 
     Timer{
@@ -184,13 +186,14 @@ Item{
     }
 
     Text{
+        id: currentScoreText
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
         font.pixelSize: questionCityName.font.pixelSize
-        font.bold: true
-        horizontalAlignment: Text.AlignHCenter
+        horizontalAlignment: Text.AlignLeft
         text: "Score: " + rightStreak
+
     }
 
     Component.onCompleted: {

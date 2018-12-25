@@ -54,11 +54,6 @@ ApplicationWindow {
     }
 
     Component{
-        id: guessLicencePlateHighscore
-        GuessLicencePlateHighscore{}
-    }
-
-    Component{
         id: infos
         Infos{}
     }
